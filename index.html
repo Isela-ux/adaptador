@@ -1,0 +1,849 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Parroquia La Natividad de María</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap');
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            width: 100%;
+            text-align: center;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            background-color: #f4f4f4;
+            overflow-x: hidden;
+            overflow-y: auto;
+        }
+
+        .sidebar {
+            width: 250px;
+            background-color: #007b8f;
+            color: white;
+            padding: 20px;
+            text-align: left;
+            position: fixed;
+            height: 100%;
+            top: 0;
+            left: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            overflow: visible;
+        }
+
+        .sidebar h3 {
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+
+        .sidebar p {
+            font-size: 14px;
+            margin: 5px 0;
+        }
+
+        .sidebar a {
+            color: white;
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        .facebook-link {
+            display: flex;
+            align-items: center;
+            margin-top: 15px;
+        }
+
+        .facebook-link img {
+            width: 20px;
+            height: 20px;
+            margin-right: 10px;
+        }
+
+        .facebook-link a {
+            color: white;
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        .correo-link {
+            display: flex;
+            align-items: center;
+            margin-top: 10px;
+        }
+
+        .correo-link i {
+            margin-right: 10px;
+            font-size: 18px;
+        }
+
+        .imagen-destacada {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            margin-top: 30px;
+            margin-left: -50px;
+            z-index: 10;
+            cursor: pointer;
+        }
+
+        .imagen-destacada img {
+            width: 200px;
+            height: auto;
+            margin-bottom: 10px;
+            border-radius: 10px;
+        }
+
+        .imagen-destacada h4 {
+            color: #ffffff;
+            font-size: 16px;
+            margin: 0 0 10px 0;
+            font-family: 'Great Vibes', cursive;
+            text-align: center;
+        }
+
+        .imagen-destacada a {
+            color: #ffffff;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: bold;
+            text-align: center;
+        }
+
+        .imagen-destacada a:hover {
+            text-decoration: underline;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 999;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            max-width: 90%;
+            max-height: 90%;
+        }
+
+        .modal-content img {
+            width: 100%;
+            height: auto;
+            border-radius: 10px;
+        }
+
+        .close {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            color: white;
+            font-size: 30px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .main-content {
+            margin-left: 250px;
+            width: calc(100% - 250px);
+            position: relative;
+            padding-top: 10px;
+            overflow: auto; 
+        }
+
+        header {
+            background-color: #00bcd4;
+            padding: 20px;
+            color: white;
+            font-size: 40px;
+            font-family: 'Great Vibes', cursive;
+            position: fixed;
+            top: 0;
+            width: calc(100% - 250px);
+            z-index: 2;
+            left: 250px;
+            box-sizing: border-box;
+
+            position: fixed;
+            z-index: 10;
+                    }
+
+        .content {
+            background-image: url('imagenes/1.jpg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            height: 100vh;
+            width: 100%;
+            position: relative;
+            top: 80px;
+            padding-top: 50px;
+            z-index: 1;
+        }
+
+        .descripcion {
+            position: relative;
+            z-index: 1;
+            color: white;
+            font-size: 22px;
+            margin-top: 20px;
+            padding: 20px;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+            text-align: center;
+            text-shadow: 3px 3px 8px rgba(0, 0, 0, 0.8);
+        }
+
+        .horarios {
+            position: relative;
+            z-index: 1;
+            color: white;
+            font-size: 22px;
+            margin-top: 20px;
+            padding: 20px;
+            text-align: left;
+            margin-left: 50px;
+            max-width: 300px;
+            text-shadow: 3px 3px 8px rgba(0, 0, 0, 0.8);
+        }
+
+        .horario {
+            background-color: #00bcd4;
+            color: white;
+            padding: 15px;
+            border-radius: 10px;
+            font-size: 18px;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+
+        .oracion-container {
+            background-color: #f9f9f9;
+            padding: 40px; /* Aumentamos aún más el padding para dar espacio a las flores */
+            margin-top: 80px;
+            color: #555;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            position: relative; /* Necesario para posicionar las flores absolutamente */
+            border-radius: 0px; /* Opcional: para que los bordes no se vean tan rectos detrás de las flores */
+            overflow: hidden; /* Importante: oculta las partes de las flores que sobresalen del borde redondeado */
+        }
+
+        .oracion-texto {
+            width: 80%;
+            margin-bottom: 20px;
+            z-index: 2; /* Asegura que el texto esté encima de las flores si hay alguna superposición */
+        }
+
+        .oracion-texto p {
+            text-align: center;
+        }
+
+        .oracion-imagen {
+            width: 150px;
+            height: auto;
+            border-radius: 10px;
+            box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease-in-out;
+            z-index: 2; /* Asegura que la imagen esté encima de las flores */
+        }
+
+        .oracion-imagen:hover {
+            transform: scale(1.8);
+        }
+
+        .flor-arriba-izquierda {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            width: 100px; /* Aumentamos el tamaño */
+            height: auto;
+            z-index: 1;
+        }
+
+        .flor-abajo-derecha {
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+            width: 100px; /* Aumentamos el tamaño */
+            height: auto;
+            z-index: 1;
+        }
+
+        .restauracion {
+            background-color:#f9f9f9;
+            padding: 40px;
+            margin-top: 0px;
+            text-align: center;
+            color: #333;
+            border-radius: 0px;
+        }
+
+        .restauracion h2 {
+            font-size: 24px;
+            margin-bottom: 20px;
+            font-family: 'Great Vibes', cursive;
+        }
+
+        .imagenes-restauracion {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 20px;
+        }
+
+        .imagenes-restauracion img {
+            width: 200px;
+            height: auto;
+            border-radius: 10px;
+            margin: 0 10px;
+            cursor: pointer;
+            transition: transform 0.2s ease;
+        }
+
+        .imagenes-restauracion img:hover {
+            transform: scale(1.2);
+        }
+        .cosas-parroquia {
+    background-color:#f9f9f9;
+    padding: 20px;
+    margin-top: 0px;
+    text-align: center;
+    color: #333;
+    border-radius: 0px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* Ajustado a 300px por el ancho inline */
+    gap: 20px;
+}
+
+.cosas-parroquia h3 {
+    font-size: 18px;
+    margin-bottom: 10px;
+    grid-column: 1 / -1;
+    text-align: center;
+}
+
+.grupo-con-borde {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    border: 1px solid #ccc; /* Agrega un borde gris claro */
+    border-radius: 5px; /* Opcional: bordes redondeados */
+    padding: 10px; /* Opcional: espacio interno */
+}
+
+.grupo-con-borde {
+    width: 300px;
+    margin-bottom: 30px;
+    font-family: Arial, sans-serif;
+    text-align: center;
+}
+
+/* Imagen con efecto de elevación */
+.imagen-con-efecto {
+    overflow: hidden;
+    border-radius: 10px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.imagen-con-efecto img {
+    width: 100%;
+    height: auto;
+    display: block;
+    transition: transform 0.3s ease;
+}
+
+/* Texto que aparece desde abajo */
+.texto-aparece {
+    max-height: 0;
+    overflow: hidden;
+    opacity: 0;
+    transform: translateY(-10px);
+    transition: all 0.4s ease;
+    background-color: #f3f3f3;
+    padding: 0 10px;
+    font-size: 14px;
+}
+
+/* Al pasar el mouse sobre el grupo, la imagen sube y el texto baja */
+.grupo-con-borde:hover .imagen-con-efecto {
+    transform: translateY(-10px);
+    box-shadow: 0 12px 20px rgba(0, 0, 0, 0.3);
+}
+
+.grupo-con-borde:hover .texto-aparece {
+    max-height: 100px;
+    opacity: 1;
+    transform: translateY(0);
+    padding: 10px;
+}
+
+
+.responsable {
+    font-size: 14px;
+    color: #555;
+}
+
+.grupo-con-imagen {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.grupo-con-imagen p {
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+.grupo-con-imagen img {
+    width: 100%; /* La imagen ocupa el ancho de su contenedor */
+    height: auto;
+    border-radius: 5px;
+    max-width: 250px; /* Ancho máximo de la imagen */
+}
+.eventos-dropdown {
+  position: absolute;
+  top: 10px;
+  right: 20px;
+  z-index: 999;
+  font-family: Arial, sans-serif;
+}
+
+.boton-eventos {
+  background-color: #007b8f;
+  color: white;
+  padding: 10px 15px;
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+  font-size: 14px;
+}
+
+.menu-eventos {
+  display: none;
+  position: absolute;
+  right: 0;
+  background-color: white;
+  color: black;
+  min-width: 220px;
+  box-shadow: 0px 4px 8px rgba(0,0,0,0.2);
+  padding: 10px;
+  border-radius: 5px;
+  margin-top: 5px;
+}
+
+.eventos-dropdown:hover .menu-eventos {
+  display: block;
+}
+
+.menu-eventos p {
+  margin: 0;
+  padding: 5px 0;
+  font-size: 14px;
+  border-bottom: 1px solid #ccc;
+}
+
+.menu-eventos p:last-child {
+  border-bottom: none;
+}
+
+        /* Estilos para las imágenes restauradas */
+        .restaurar-img.clicked {
+            transform: scale(1.2);
+            transition: transform 0.2s ease;
+        }
+        
+        
+
+    </style>
+ <style>
+    @media (max-width: 768px) {
+        /* Menú lateral oculto por defecto */
+        .sidebar {
+            position: fixed;
+            top: 0;
+            left: -100%;
+            width: 250px;
+            height: 100%;
+            background-color: #007b8f;
+            color: white;
+            transition: left 0.3s ease;
+            z-index: 1000;
+            padding: 20px;
+            overflow-y: auto;
+        }
+    
+        /* Mostrar menú cuando está abierto */
+        .sidebar.abierta {
+            left: 0;
+        }
+    
+        /* Botón de menú */
+        .toggle-btn {
+            position: fixed;
+            top: 15px;
+            left: 15px;
+            background-color: #007b8f;
+            color: white;
+            padding: 10px;
+            border: none;
+            cursor: pointer;
+            font-size: 18px;
+            border-radius: 5px;
+            z-index: 1100;
+        }
+    
+        /* Encabezado fijo */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background-color: #00bcd4;
+            color: white;
+            padding: 20px 10px;
+            font-size: 24px;
+            text-align: center;
+            z-index: 999;
+            box-sizing: border-box;
+        }
+    
+        /* Contenedor principal ajustado debajo del header */
+        .main-content {
+            margin: 0;
+            padding-top: 100px;
+            width: 100%;
+            box-sizing: border-box;
+            background-color: #f4f4f4;
+        }
+    
+        /* Secciones internas alineadas y sin márgenes excesivos */
+        .descripcion,
+        .horarios,
+        .oracion-container,
+        .restauracion,
+        .cosas-parroquia,
+        .grupo-con-borde {
+            width: 100%;
+            margin: 0;
+            padding: 10px;
+            box-sizing: border-box;
+        }
+    
+        .imagenes-restauracion img,
+        .grupo-con-borde img,
+        .imagen-destacada img {
+            width: 100%;
+            height: auto;
+            max-width: 100%;
+        }
+    
+        iframe {
+            width: 100%;
+            max-width: 100%;
+            height: auto;
+        }
+    }
+    </style>
+    
+        
+        
+        
+</head>
+<body>
+    <button class="toggle-btn" onclick="toggleSidebar()">☰ Menú</button>
+
+    <div class="sidebar">
+        <h3>DIRECCIÓN</h3>
+        <p><a href="https://maps.app.goo.gl/g93AFpbCb1Khx1Ef9" target="_blank" style="color: white;">Miguel Hidalgo esq. Ramón Mendoza, 86690</a></p>
+        <div class="facebook-link">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/5/51/Facebook_f_logo_%282019%29.svg" alt="Facebook">
+            <a href="https://www.facebook.com/share/165iCNUT3k/" target="_blank">Visítanos en Facebook</a>
+        </div>
+
+        <div class="correo-link">
+            <i class="fas fa-envelope"></i>
+            <a href="mailto:parroquia_19@outlook.es" style="color: white;">parroquia_19@outlook.es</a>
+        </div>
+
+        <div class="imagen-destacada" onclick="openModal();">
+            <h4>Fundación de Cunduacán</h4>
+            <img src="imagenes/virgen.jpeg" alt="Imagen">
+            <a href="https://detabascosoy.com/parroquia-de-la-natividad-de-maria-cunduacan/" target="_blank">Ver más detalles</a>
+        </div>
+    </div>
+
+    <div class="main-content">
+        <header>
+            Parroquia La Natividad de María
+
+            <div class="eventos-dropdown">
+                <button class="boton-eventos">Próximos Eventos</button>
+                <div class="menu-eventos">
+                    <p> ACTIVIDADES DE SEMANA SANTA</p>  
+                  <p>🌟 Misa de DOMINGO DE RAMOS  - 08:00, 10:00 , 12:00 Y 7:00 PM .EL 13 de abril</p>
+                  <p>📖 Procesion de DOMINGO DE RAMOS - 13 DE ABRIL 09:00 AM , PARQUE MANUEL SANCHEZ MARMOL</p>
+                  <p>🎶 Misa de JUEVES SANTO -  17 de abril-07:00 PM</p>
+                  <p>🎶 Misa de VIERNES SANTO -  18 de abril-06:00 PM</p>
+                  <p>🎶 Misa de SABADO SANTO VIGILIA PASCUAL -  19 de abril-07:00 PM</p>
+                  <p>🎶 Misa de DOMINGO DE RESURRECCION  -  20 de abril-10:00 , 12:00 Y 7:00 PM</p>
+                </div>
+              </div>
+              
+        </header>
+
+        <div class="content">
+            <div class="descripcion">
+                Bienvenidos a la Parroquia La Natividad de María, donde nos encontramos para celebrar la fe, la comunidad y los valores cristianos. Únete a nosotros en nuestras misas, eventos y actividades parroquiales.
+            </div>
+
+            <div class="horarios">
+                <div class="horario">Misas: Martes - Jueves a las 7:00 PM</div>
+                <div class="horario">Domingo: 8:00 AM, 10:00 AM, 12:00 PM y 6:00 PM</div>
+                <div class="horario">Confesiones: Martes y Jueves 10:00 AM</div>
+            </div>
+        </div>
+
+        <div class="oracion-container">
+            <img src="imagenes/FLORES.png" alt="Flores Arriba Izquierda" class="flor-arriba-izquierda">
+            <div class="oracion-texto">
+                <p><strong>ORACIÓN DEL SANTO PADRE JUAN PABLO II</strong></p>
+                <p><strong>EN LA FIESTA LITÚRGICA</strong></p>
+                <p><strong>DE LA NATIVIDAD DE LA VIRGEN MARÍA</strong></p>
+                <br>
+                <p>¡Oh Virgen naciente,<br>
+                esperanza y aurora de salvación para todo el mundo, vuelve benigna tu mirada materna hacia todos nosotros, reunidos aquí para celebrar y proclamar tus glorias!</p>
+                <p>¡Oh Virgen fiel,<br>
+                que siempre estuviste dispuesta y fuiste solícita para acoger, conservar y meditar la Palabra de Dios, haz que también nosotros, en medio de las dramáticas vicisitudes de la historia, sepamos mantener siempre intacta nuestra fe cristiana, tesoro precioso que nos han transmitido nuestros padres!</p>
+                <p>¡Oh Virgen potente,<br>
+                que con tu pie aplastaste la cabeza de la serpiente tentadora, haz que cumplamos, día tras dÍa, nuestras promesas bautismales, con las cuales hemos renunciado a Satanás, a sus obras y a sus seducciones, y que sepamos dar en el mundo un testimonio alegre de esperanza cristiana!</p>
+            </div>
+            <img src="imagenes/VIRGENC.jpg" alt="Virgen María" class="oracion-imagen">
+            <img src="imagenes/FLORES.png" alt="Flores Abajo Derecha" class="flor-abajo-derecha">
+        </div>
+        <div style="margin-top: 0px; text-align: center; background-color: #f9f9f9; padding: 20px;">
+            <h2 style="color: #00563F;">Milagro de la Virgen - 2 de mayo</h2>
+            <div style="margin-top: 20px;">
+              <iframe
+                width="560"
+                height="315"
+                src="https://www.youtube.com/embed/grYw-AS2dTQ"
+                title="Milagro de la Virgen - 2 de mayo"
+                frameborder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                allowfullscreen>
+              </iframe>
+            </div>
+        </div>
+        <!-- Sección Fiesta Patronal y Actividades -->
+<div style="margin-top: 0px; background-color: #f9f9f9; padding: 20px; width: 100%;">
+    <div style="max-width: 1000px; margin: 0 auto; text-align: center;">
+        <h2 style="color: #00563F;">Fiesta Patronal y Actividades</h2>
+        <p style="font-size: 16px; color: #333;">
+            Disfruta de la fiesta patronal con diversas actividades para toda la familia, incluyendo música, danza y juegos tradicionales. No te pierdas estos momentos especiales.
+        </p>
+        
+
+        <!-- Imágenes de la fiesta patronal con más separación -->
+        <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 40px; margin-top: 30px;">
+            <img src="imagenes/programa.jpg" alt="Fiesta 1" style="width: 250px; height: auto; border-radius: 8px; box-shadow: 0 0 10px rgba(0,0,0,0.2);">
+            <img src="imagenes/kermes.jpg" alt="Fiesta 2" style="width: 250px; height: auto; border-radius: 8px; box-shadow: 0 0 10px rgba(0,0,0,0.2);">
+            
+            </style>
+            
+        </div>
+        
+    </div>
+   
+</div>
+
+
+        <!-- Sección del retablo, separada pero con mismo fondo y estilo -->
+<div style="margin-top: 0px; background-color: #f9f9f9; padding: 20px; width: 100%;">
+    <div style="max-width: 1000px; margin: 0 auto; text-align: center;">
+        <h2 style="color: #00563F;">Inauguración de retablo</h2>
+        <p style="font-size: 16px; color: #333;">
+            Celebración especial para la bendición e inauguración del nuevo retablo en honor a la Virgen, con participación de toda la comunidad parroquial.
+        </p>
+
+        <!-- Imágenes del evento -->
+        <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 20px; margin-top: 20px;">
+            <img src="imagenes/retablo.jpg" alt="Retablo 1" style="width: 300px; height: auto; border-radius: 8px; box-shadow: 0 0 10px rgba(0,0,0,0.2);">
+            <img src="imagenes/virgenret.jpg" alt="Retablo 2" style="width: 300px; height: auto; border-radius: 8px; box-shadow: 0 0 10px rgba(0,0,0,0.2);">
+            <img src="imagenes/virgeng.jpg" alt="Retablo 3" style="width: 300px; height: auto; border-radius: 8px; box-shadow: 0 0 10px rgba(0,0,0,0.2);">
+        </div>
+    </div>
+
+        <div class="restauracion">
+            <h2>Restauración del Retablo</h2>
+            <p>Agradecemos sinceramente a nuestro Párroco el Pbro. Isaías Coronado Sifuentes por su iniciativa, dedicación y liderazgo en la remodelación de nuestro templo parroquial. Su visión y compromiso han sido fundamentales para darle un nuevo brillo y esplendor a nuestro espacio de oración. Que Dios le bendiga y le recompense por su amor y dedicación a nuestra comunidad. 🙏</p>
+            <div class="imagenes-restauracion">
+                <img src="imagenes/IM1.jpg" alt="Imagen 1">
+                <img src="imagenes/IM2.jpg" alt="Imagen 2">
+                <img src="imagenes/IM3.jpg" alt="Imagen 3">
+                <img src="imagenes/IM4.jpg" alt="Imagen 4">
+                <img src="imagenes/IM5.jpg" alt="Imagen 5">
+            </div>
+        </div>
+
+        <div class="cosas-parroquia">
+            <h3>GRUPOS PARROQUIALES</h3>
+            <h3>Te presentamos algunas de las cosas que componen nuestra parroquia:</h3>
+            
+            <div class="grupo-con-borde">
+                <p><strong>Catequesis:</strong></p>
+                <div class="imagen-con-efecto">
+                <img src="imagenes/CA.jpeg" alt="Catequesis" style="width: 200px; height: auto;">
+            </div>
+                <p class="responsable">Responsable Melina Peralta</p>
+                <div class="texto-aparece">
+                    La catequesis está enfocada en la formación de niños y jóvenes en la fe cristiana .Iniciando con su formacion de 6 años en adelante.Catequesis escolarizada de 5 a 7 , comunion de 7 a 13 Y confirmacion 13 años.
+                </div>
+            </div>
+
+
+           
+            <div class="grupo-con-borde">
+                <p><strong>Adoracion:</strong></p>
+                <div class="imagen-con-efecto">
+                <img src="imagenes/ADOMEX.jpg" alt="Adoración" style="width: 200px; height: auto;">
+            </div>
+                <p class="responsable">Responsable Isidro chable</p>
+                <div class="texto-aparece">
+                    Adoracion al santisimo sacramento del altar, con devocion y sencillez vamos al encuntro vivo y puro de nuestro padre Dios.
+                </div>
+            </div>
+
+
+
+            <div class="grupo-con-borde">
+                <p><strong>MFC:</strong></p>
+                <div class="imagen-con-efecto">
+                <img src="imagenes/MFC.jpg" alt="MFC" style="width: 200px; height: auto;">
+            </div>
+                <p class="responsable">Responsable de MFC</p>
+                <div class="texto-aparece">
+                    Este grupo se encarga de ir a conquistar matrominios para  que tengan un encuentro intimo con la sagrada familia.
+                </div>
+            </div>
+
+         
+            <div class="grupo-con-borde">
+                <p><strong>Liturgia:</strong></p>
+                <div class="imagen-con-efecto">
+                <img src="imagenes/LL.jpg" alt="Liturgia" style="width: 200px; height: auto;">
+            </div>
+                <p class="responsable">Responsable Sarai Castañeda</p>
+                <div class="texto-aparece">
+                    Grupo que se encarga de preparar la Liturgia , hay cargos de SALMISTAS, LECTORES, COLECTORES , MINISTROS, CORO etc.
+                </div>
+
+            </div>
+            
+
+
+
+            <div class="grupo-con-borde">
+                <p><strong>Escuela de la Cruz:</strong></p>
+                <div class="imagen-con-efecto">
+                <img src="imagenes/CRUZ.jpg" alt="Escuela de la Cruz" style="width: 200px; height: auto;">
+            </div>
+                <p class="responsable">Responsable Concepcion Ricardez</p>
+                <div class="texto-aparece">
+                 Se encarga de  Contemplar al resucitado, buscarlo en una manera mas profunda en cada una de las familias.
+                </div>
+            </div>
+
+            <div class="grupo-con-borde">
+                <p><strong>Renovacion:</strong></p>
+                <div class="imagen-con-efecto">  
+                <img src="imagenes/CARISMATICA.jpg" alt="Renovacion" style="width: 200px; height: auto;">
+            </div>
+
+                <p class="responsable">Responsable Landy</p>
+                <div class="texto-aparece">
+                   Este se enfoca en buscar , sentir ,adorar a Dios padre en el sentido de la alabanza que se le ofrece en cada reunion que se tiene .
+                </div>
+            </div>
+
+
+
+
+            <div class="grupo-con-borde">
+                <p><strong>legion de Maria:</strong></p>
+                <div class="imagen-con-efecto">  
+                <img src="imagenes/LEG.jpg" alt="Legion de Maria" style="width: 200px; height: auto;">
+            </div>
+                <p class="responsable">Responsable Beatriz Madrigal</p>
+                <div class="texto-aparece">
+                   Comtemplacion a nuestra madre santisima mediante resos, visitas , adoraciones etc.
+                </div>
+            </div>
+
+
+
+
+
+            <div class="grupo-con-borde">
+                <p><strong>Jornada:</strong></p>
+                <div class="imagen-con-efecto">  
+
+                <img src="imagenes/JO.jpeg" alt="Jornada" style="width: 200px; height: auto;">
+            </div>
+                <p class="responsable">Responsable de Jornada</p>
+                <div class="texto-aparece">
+                   Se enfoca en renovar al creyente y al que se encuentra alejado de Dios , mediante encuentros profundos con Dios padre.
+                </div>
+            </div>
+
+            
+        </div>
+      
+        <iframe 
+        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3763.708198369406!2d-93.17686862402464!3d18.06586928262805!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x85ee818172ccfaad%3A0x2c120d12dda85ae0!2sParroquia%20La%20Natividad%20de%20Maria!5e0!3m2!1ses!2smx!4v1712777402325!5m2!1ses!2smx" 
+        width="100%" 
+        height="300" 
+        style="border:0; border-radius: px;" 
+        allowfullscreen="" 
+        loading="lazy" 
+        referrerpolicy="no-referrer-when-downgrade">
+    </iframe>
+
+    </div>
+    
+    <div id="imageModal" class="modal" onclick="closeModal();">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal();">×</span>
+            <img src="imagenes/virgen.jpeg" alt="Imagen destacada">
+        </div>
+    </div>
+
+    <script>
+        function openModal() {
+            document.getElementById('imageModal').style.display = "flex";
+        }
+
+        function closeModal() {
+            document.getElementById('imageModal').style.display = "none";
+        }
+        function toggleSidebar() {
+    document.querySelector('.sidebar').classList.toggle('abierta');
+}
+
+    </script>
+</body>
+</html>
